@@ -10,11 +10,13 @@ import store from "./store/store";
 const root = createRoot(document.getElementById('root'));
 
 root.render (
-    <StrictMode>
+    <>
+    {/* <StrictMode>*/}
         <Provider store={store}>
             <BrowserRouter>
                 <App/>
             </BrowserRouter>
         </Provider>
-    </StrictMode>
+    {/* </StrictMode> */}
+    </>
 )

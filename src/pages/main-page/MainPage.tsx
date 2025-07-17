@@ -1,5 +1,6 @@
 import '../../shared/styles/page/page.scss'
 import Counter from '../../features/FirstRedux component'
+import Store from '../../features/Store'
 
 
 const MainPage = () => {
@@ -10,9 +11,16 @@ const MainPage = () => {
             </div>
 
             <section>
-                <div className="section-name">1. To-do List</div>
+                <div className="section-name">1. Одинокий счётчик</div>
                 <div className="section-inner">
                     <Counter/>
+                </div>
+            </section>
+
+            <section>
+                <div className="section-name">1. Магазин</div>
+                <div className="section-inner">
+                    <Store/>
                 </div>
             </section>
         </>
