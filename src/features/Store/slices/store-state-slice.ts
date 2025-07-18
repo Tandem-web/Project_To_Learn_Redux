@@ -22,7 +22,6 @@ const storeState = createSlice({
     initialState: initialState,
     reducers: {
         changeShowingState: (state, action: PayloadAction<Showing>) => {
-            console.log(action.payload)
             state.showingState = action.payload;
         }
     }
