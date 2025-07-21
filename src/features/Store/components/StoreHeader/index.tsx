@@ -8,7 +8,7 @@ function StoreHeader() {
     const dispatch = useDispatch();
     const favorites = useSelector((state: RootState) => state.products.favorites);
     const favoriteIds = Object.keys(favorites).filter((id) => favorites[Number(id)]);
-    const cartItems = useSelector((state: RootState) => state.cart.items);
+    const cartItems = useSelector((state: RootState) => state.cart.cartProductIds);
 
     const showingState = useSelector((state: RootState) => state.storeState.showingState);
 

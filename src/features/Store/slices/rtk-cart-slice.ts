@@ -1,10 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ProductApi, ProductsBusket } from "../model/types";
+import { ProductApi, ProductBusket, ProductsApi, ProductsBusket } from "../model/types";
 import { api } from "../api/store-apiSlice";
 
 interface CartState{
     cartProductIds: ProductApi["id"][],
-    cartPorducts: Record<ProductApi["id"], ProductApi>,
+    cartProducts: Record<ProductBusket["info"]["id"], ProductBusket>,
     cartInfo: {
         totalPrice: number
     }
@@ -12,7 +12,7 @@ interface CartState{
 
 const initialState:CartState = {
     cartProductIds: [],
-    cartPorducts: {},
+    cartProducts: {},
     cartInfo:{
         totalPrice: 0,
     }
@@ -32,89 +32,86 @@ const cartSlice = createSlice({
 
             // state.cartInfo.totalPrice = calculateTotalPrice(state.items);
         },
-        // removeFromCart: (state, action: PayloadAction<ProductApi["id"]>) => {
-        //     const cartProducts = state.items;
-        //     const productId = action.payload;
-        //     state.items = cartProducts.filter(item => item.info.id != productId);
+        removeFromCart: (state, action: PayloadAction<ProductApi["id"]>) => {
+            const productId = action.payload;
 
-        //     state.cartInfo.totalPrice = calculateTotalPrice(state.items);
-        // },
-        // increaseQuantity: (state, action: PayloadAction<ProductApi["id"]>) => {
-        //     const cartProducts = state.items;
-        //     const productId = action.payload;
+            const { [productId]: removedProduct, ...remainingProducts } = state.cartProducts;
+            state.cartProducts = remainingProducts;
 
-        //     state.items = cartProducts.map(item => (
-        //         item.info.id === productId ? (
-        //             {
-        //                 ...item,
-        //                 amount: ++item.amount > 99 ? 99 : item.amount, 
-        //             }
-        //         ) : (
-        //             item
-        //         )
-        //     ))
+            state.cartProductIds = state.cartProductIds.filter(id => id !== productId);
 
-        //     state.cartInfo.totalPrice = calculateTotalPrice(state.items);
-        // },
+            state.cartInfo.totalPrice = calculateTotalPrice(Object.values(state.cartProducts));
+        },
 
-        // decreaseQuantity: (state, action: PayloadAction<ProductApi["id"]>) => {
-        //     const cartProducts = state.items;
-        //     const productId = action.payload;
+        increaseQuantity: (state, action: PayloadAction<ProductApi["id"]>) => {
+            const productId = action.payload;
 
-        //     state.items = cartProducts.map(item => (
-        //         item.info.id === productId ? (
-        //             {
-        //                 ...item,
-        //                 amount: --item.amount < 1 ? 1 : item.amount, 
-        //             }
-        //         ) : (
-        //             item
-        //         )
-        //     ))
+            if (state.cartProducts[productId]) {
+                const item = state.cartProducts[productId];
+                item.amount = Math.min(item.amount + 1, 99);
+            }
 
-        //     state.cartInfo.totalPrice = calculateTotalPrice(state.items);
-        // },
-        // setQuantity: (state, action: PayloadAction<{id: ProductApi["id"], quantity: number}>) => {
-        //     const productId = action.payload.id;
-        //     let quantity = action.payload.quantity;
-                
-        //     if(quantity < 1){
-        //         quantity = 1
-        //     }
-        //     if(quantity > 99){
-        //         quantity = 99;
-        //     }
+            state.cartInfo.totalPrice = calculateTotalPrice(Object.values(state.cartProducts));
+        },
 
-        //     state.items = state.items.map(item => (
-        //         item.info.id === productId ? ({
-        //             ...item,
-        //             amount: quantity
-        //         }) : item
-        //     ))
+        decreaseQuantity: (state, action: PayloadAction<ProductApi["id"]>) => {
+            const productId = action.payload;
 
-        //     state.cartInfo.totalPrice = calculateTotalPrice(state.items);
-        // }
+            if (state.cartProducts[productId]) {
+                const item = state.cartProducts[productId];
+                item.amount = Math.max(item.amount - 1, 1);
+            }
+
+            state.cartInfo.totalPrice = calculateTotalPrice(Object.values(state.cartProducts));
+        },
+
+        setQuantity: (state, action: PayloadAction<{ id: ProductApi["id"], quantity: number }>) => {
+            const productId = action.payload.id;
+            let quantity = action.payload.quantity;
+
+            quantity = Math.max(1, Math.min(quantity, 99));
+
+            if (state.cartProducts[productId]) {
+                state.cartProducts[productId].amount = quantity; 
+            }
+
+            state.cartInfo.totalPrice = calculateTotalPrice(Object.values(state.cartProducts));
+        }
+
     },
     extraReducers: (builder) => {
         builder.addMatcher(
-            api.endpoints.getCartProductById.matchFulfilled,
+            api.endpoints.getCartProductsByIds.matchFulfilled,
             (state, { payload }) => {
-                console.log(payload)
+                const products: ProductsApi = payload;
+                
+                products.forEach(product => {
+                    const productId = product.id;
+
+                    if (!state.cartProducts[productId]) {
+                        state.cartProducts[productId] = {
+                            info: product,
+                            amount: 1
+                        };
+                    }
+
+                    state.cartInfo.totalPrice += product.price;
+                });  
             }
         )
     }
 })
 
-// const calculateTotalPrice = (items: CartState["items"]): number => {
-//     return items.reduce((acc, item) => acc + item.amount * item.info.price, 0);
-// };
+const calculateTotalPrice = (items: CartState["cartProducts"]): number => {
+    return Object.values(items).reduce((acc, item) => acc + item.amount * item.info.price, 0);
+};
 
 export const {
     addToCart,
-    // removeFromCart,
-    // increaseQuantity,
-    // decreaseQuantity,
-    // setQuantity,
+    removeFromCart,
+    increaseQuantity,
+    decreaseQuantity,
+    setQuantity,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

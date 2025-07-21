@@ -15,7 +15,6 @@ interface StoreCardProps{
     productId: ProductApi["id"]; 
     key: string;
 }
-// https://api.escuelajs.co/api/v1/products/4
 
 const StoreCard: React.FC<StoreCardProps> = (props) => {
     const {productInfo, productId} = props;
@@ -26,8 +25,8 @@ const StoreCard: React.FC<StoreCardProps> = (props) => {
     
     const inFavorite = favoriteIds.includes(String(productId));
 
-    const cartItems = useSelector((state: RootState) => state.cart.items);
-    const inCart = cartItems.find(product => product.info.id === productInfo.id) ? true : false;
+    const cartItems = useSelector((state: RootState) => state.cart.cartProductIds);
+    const inCart = cartItems.find(productId => productId === productInfo.id) ? true : false;
 
     return (
         <>
@@ -61,7 +60,7 @@ const StoreCard: React.FC<StoreCardProps> = (props) => {
                         ) : (
                             <button 
                                 className={`card-button-add-to-basket`}
-                                onClick={() => dispatch(addToCart(productInfo))}>
+                                onClick={() => dispatch(addToCart(productId))}>
                                 <FaCartShopping/>Купить
                             </button> 
                         )
