@@ -12,7 +12,7 @@ export const api = createApi({
         }
     }),
 
-    tagTypes: ['Product', 'Favorite'],
+    tagTypes: ['Product', 'Favorite', 'CartProduct'],
 
     endpoints: (builder) => ({
         getProducts: builder.query<ProductsApi, void>({
@@ -23,10 +23,16 @@ export const api = createApi({
             query: (id) => `/products/${id}`,
             providesTags: (result, error, id) => [{ type: 'Product', id }]
         }),
+        getCartProductById: builder.query<ProductApi, ProductApi['id']>({
+            query: (id) => `/products/${id}`,
+            providesTags: (result, error, id) => [{type: 'CartProduct', id}]
+        })
     })
 })
 export const { 
     useGetProductsQuery,
     useGetProductByIdQuery,
-    useLazyGetProductByIdQuery
+    useGetCartProductByIdQuery,
+    useLazyGetProductByIdQuery,
+    useLazyGetCartProductByIdQuery 
 } = api

@@ -6,8 +6,8 @@ const texts = ['товар', 'товара', 'товаров'];
 const sklonenie = (number:number, txt: string[], cases = [2, 0, 1, 1, 1, 2]) => txt[(number % 100 > 4 && number % 100 < 20) ? 2 : cases[(number % 10 < 5) ? number % 10 : 5]];
 
 function CartContent() {
-    const cartItems = useSelector((state: RootState) => state.cart.items);
-
+    const cardIds = useSelector((state: RootState) => state.cart.cartProductIds);
+    
     return (
         <>
             <div className="cart-container-content">
@@ -16,14 +16,14 @@ function CartContent() {
                 </div>
                 <div className="cart-list">
                     {
-                        cartItems.length > 0 ? (
+                        cardIds.length > 0 ? (
                             <>
                                 <div>
-                                    <span className="cart-list-info">{`${cartItems.length} ${sklonenie(cartItems.length, texts)}`}</span>
+                                    <span className="cart-list-info">{`${cardIds.length} ${sklonenie(cardIds.length, texts)}`}</span>
                                 </div>
                                 {
-                                    cartItems.map((item, index) => (
-                                        <CartItem key={`cart-item-${item.info.id}`} product={item}/>
+                                    cardIds.map((id, _) => (
+                                        <CartItem key={`cart-item-${id}`} productId={id}/>
                                     ))
                                 }
                             </>
