@@ -1,0 +1,210 @@
+.rhf-card-list-wrapper{
+    display: grid;
+    grid-template-columns: repeat(4, 225px);
+    gap: 20px;
+    justify-content: center;
+    padding: 20px;
+    margin: 0 auto;
+    max-width: calc(20px*2 + 20px * 3 + 4*225px);
+}
+
+.rhf-card-wrapper{
+    width: 100%;
+    height: 100%;
+}
+.rhf-card-open-modal, .rhf-card-default{
+    padding: 20px 10px;
+    height: 340px;
+    width: 100%;
+    border-radius: 22px;
+    overflow: hidden;
+    background-color: #15202B;
+    border: 2px solid #4d5c68;
+}
+.rhf-card-default{
+    position: relative;
+    padding-left: 40px;
+    display: flex;
+    flex-direction: column;
+}
+.rhf-card-aside-flag{
+    writing-mode: sideways-lr;
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    text-align: center;
+    background-color: var(--main-app-color);
+    padding: 2.5px 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 16px;
+    font: var(--font-m);
+}
+
+.rhf-card-header{
+    margin-bottom: 10px;
+}
+
+.rhf-card-title{
+    text-align: right;
+    width: 100%;
+    display: block;
+    font-weight: var(--font-weight-bold);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.rhf-card-body{
+    height: 100%;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+.rhf-card-description{
+    width: 100%;
+    display: block;
+    text-align: justify;
+    white-space: break-spaces;
+    font: var(--font-s);
+}
+
+.rhf-card-footer{
+    flex-grow: 1;
+    display: flex;
+    align-items: end;
+}
+
+.rhf-card-delete-button{
+    background-color: var(--main-color-error);
+    padding: 10px 10px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    line-height: 14px;
+    border-radius: 12px;
+}
+
+
+.rhf-card-open-modal svg{
+    width: 30px;
+    height: 30px;
+    margin-bottom: 10px;
+}
+
+.rhf-card-open-modal p{
+    font-weight: var(--font-weight-bold);
+    font:  var(--font-m);
+}
+.rhf-card-open-modal, .rhf-card-open-modal *{
+    transition: 0.3s;
+}
+
+.rhf-card-open-modal:hover{
+    border-color: #fff;
+    border-width: 4px;
+}
+.rhf-card-open-modal:hover *{
+    transform: scale(1.1);
+}
+
+
+
+.rhf-modal-wrapper{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba($color: #000000, $alpha: 0.5);
+    z-index: 1000000;
+}
+
+.rhf-form{
+    width: 100%;
+    max-width: 400px;
+    background-color: #fff;
+    border-radius: 20px;
+    padding: 40px 20px 20px 20px;
+    position: relative;
+}
+
+.rhf-form-close-icon{
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    width: 25px;
+    height: 25px;
+}
+.rhf-form-close-icon svg{
+    width: 100%;
+    height: 100%;
+    color: #15202B;
+}
+.rhf-form-title h2{
+    color: #15202B;
+    font-size: 20px;
+    font-weight: 600;
+    text-align: center;
+}
+.rhf-form-title{
+    margin-bottom: 20px;
+}
+.rhf-form form{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.rhf-form form label{
+    color: #15202B;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.rhf-form form .rhf-form-row{
+    flex-direction: column;
+    display: flex;
+    gap: 5px;
+}
+
+.rhf-form form input[type="text"]{
+    border: 2px solid #15202B;
+    color: #15202B;
+    font-size: 16px;
+    padding: 10px 5px;
+    text-indent: 5px;
+    border-radius: 10px;
+}
+.rhf-form textarea{
+    width: 100%;
+    resize: none;
+    height: 200px;
+
+    border: 2px solid #15202B;
+    color: #15202B;
+    font-size: 16px;
+    padding: 10px;
+    border-radius: 10px;
+}
+.rhf-form select{
+    width: 100%;
+    border: 2px solid #15202B;
+    color: #15202B;
+    font-size: 16px;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.rhf-form input[type="submit"]{
+    background-color: var(--main-color-success);
+    padding: 15px 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    color: #fff;
+}
