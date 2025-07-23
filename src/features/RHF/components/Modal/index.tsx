@@ -2,22 +2,18 @@ import { createPortal } from "react-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useModal } from "../../hooks/Modal/useModal";
 import { FaXmark } from "react-icons/fa6";
+import { CardCategory, CardRHF } from "../../slice/rhf-card-adapter";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../../../store/store";
+import { addCard } from "../../slice/rhf-slice";
 
-const CardCategory = {
-    EduTech: 'edu-tech',
-    FinTech: 'fin-tech',
-    AdTech: 'ad-tech'    
-} as const;
 
-type CardCategory = typeof CardCategory[keyof typeof CardCategory];
 
-interface AddCardFormInput{
-    title: string,
-    description: string,
-    category: CardCategory
-}
+type AddCardFormInput = Pick<CardRHF, 'title' | 'description' | 'category'>;
 
 function Modal_RHF() {
+    const dispatch:AppDispatch = useDispatch();
+
     const { closeModal } = useModal();
     const {
         register,
@@ -26,8 +22,13 @@ function Modal_RHF() {
         formState: { errors },
     } = useForm<AddCardFormInput>()
 
-    const onSubmit: SubmitHandler<AddCardFormInput> = (data) => console.log(data)
+    const onSubmit: SubmitHandler<AddCardFormInput> = (data) => {
+        dispatch(
+            addCard(data)
+        )
 
+        closeModal();
+    }
     return createPortal(
         <>
             <div className="rhf-modal-wrapper">

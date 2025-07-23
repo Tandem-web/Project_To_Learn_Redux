@@ -98,7 +98,7 @@
     font:  var(--font-m);
 }
 .rhf-card-open-modal, .rhf-card-open-modal *{
-    transition: 0.3s;
+    transition: 0.32s ease-out;
 }
 
 .rhf-card-open-modal:hover{

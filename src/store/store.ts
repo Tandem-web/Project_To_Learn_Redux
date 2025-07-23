@@ -7,6 +7,7 @@ import todosReducer from '../features/Todo-list/slice/todo-slice';
 import { api } from '../features/Store/api/store-apiSlice';
 import storage from 'redux-persist/lib/storage';
 import { persistReducer, persistStore } from 'redux-persist';
+import rhfsReducer from '../features/RHF/slice/rhf-slice';
 
 const todosPersistConfig = {
   key: 'todos',
@@ -20,6 +21,7 @@ const rootReducer = combineReducers({
     storeState: storeStateReducer,
     cart: cartReducer,
     todos: persistReducer(todosPersistConfig, todosReducer),
+    rhfs: rhfsReducer,
 });
 export type RootReducer = ReturnType<typeof rootReducer>;
 
