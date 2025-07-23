@@ -2,10 +2,10 @@ import { createPortal } from "react-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useModal } from "../../hooks/Modal/useModal";
 import { FaXmark } from "react-icons/fa6";
-import { CardCategory, CardRHF } from "../../slice/rhf-card-adapter";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../../store/store";
 import { addCard } from "../../slice/rhf-slice";
+import { CardCategory, CardRHF } from "../../types/types";
 
 
 

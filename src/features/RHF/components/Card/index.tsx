@@ -1,10 +1,10 @@
 import React from "react";
 import { FaPlus } from "react-icons/fa6";
 import { useModal } from "../../hooks/Modal/useModal";
-import { CardRHF } from "../../slice/rhf-card-adapter";
 import { AppDispatch } from "../../../../store/store";
 import { useDispatch } from "react-redux";
 import { removeCard } from "../../slice/rhf-slice";
+import { CardRHF } from "../../types/types";
 
 
 export const CardTypes = {
